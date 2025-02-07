@@ -1,0 +1,9 @@
+{
+	"local_modules": [
+		"/home/gui/work/web/games/jai/compiler/main/modules",
+		"src/jai/modules"
+	],
+	"roots": ["src/jai/main.jai", "src/jai/build/build.jai"],
+	"build_root": "src/jai/build/build.jai"
+}
+
