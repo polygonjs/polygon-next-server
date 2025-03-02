@@ -5,6 +5,7 @@ import cors from 'cors';
 
 const app = express();
 app.use(
+	express.json(),
 	cors()
 	/*{
 		origin: ['http://localhost:5173'],
@@ -48,6 +49,43 @@ app.get('/assets/*', async (req, res) => {
 	}
 });
 
+app.post('/save.json', async (req, res) => {
+	const {filePath, content} = req.body as SaveRequestData;
+
+	await fs.writeFile(filePath, content);
+
+	const date = nowFormatted();
+	const message = `File saved:\n${filePath}\non ${date}`;
+	const responseData: SaveResponseData = {
+		success: true,
+		message,
+	};
+	res.json(responseData);
+});
+
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
+
+interface SaveRequestData {
+	filePath: string;
+	content: string;
+}
+interface SaveResponseData {
+	success: boolean;
+	message: string;
+}
+
+export function nowFormatted() {
+	const now = new Date();
+	const formattedDate = now.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		timeZoneName: 'short',
+	});
+	return formattedDate;
+}
