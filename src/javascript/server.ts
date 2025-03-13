@@ -23,6 +23,7 @@ app.get('/assets/*', async (req, res) => {
 		const filePath = req.path.replace('/assets/', '');
 		// Resolve the full path (joining with the assets directory)
 		const fullPath = path.join(ASSETS_DIR, filePath);
+
 		console.log(`ASSET: ${filePath} -> ${fullPath}`);
 
 		// Check if file exists and read it
@@ -42,6 +43,7 @@ app.get('/assets/*', async (req, res) => {
 			}[ext] || 'application/octet-stream';
 
 		res.setHeader('Content-Type', contentType);
+		console.log(`File ok: '${fullPath}'`);
 		res.send(file);
 	} catch (error) {
 		console.error('Error serving asset:', error);
